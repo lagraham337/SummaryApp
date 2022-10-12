@@ -5,9 +5,6 @@ import numpy as np
 import nltk
 nltk.download("punkt")
 
-
-st.title('Comprehension Science')
-
 # NLP
 
 
@@ -31,21 +28,22 @@ def sumy_summarizer(docx):
 def main():
     """Summary and entity checker"""
 
-    st.title("Summary and Entity Checker")
+    st.title("Comprehension Science")
 
     activities = ["Summarize", "NER Checker", "NER for URL"]
     choice = st.sidebar.selectbox("Select Activity", activities)
 
     if choice == 'Summarize':
-        st.subheader("Summary with NLP")
+        st.subheader("Tl;dr")
         raw_text = st.text_area("Enter Text Here", "Type Here")
-        summary_choice = st.selectbox("Summary Choice", ["Sumy Lex Rank 1", "Sumy Lex Rank"])
+        #summary_choice = st.selectbox("Summary Choice", ["Sumy Lex Rank 1", "Sumy Lex Rank"])
         if st.button("Summarize"):
             
-            if summary_choice == 'Sumy Lex Rank 1':
-                summary_result = sumy_summarizer(raw_text)
-            elif summary_choice == 'Sumy Lex Rank':
-                summary_result = sumy_summarizer(raw_text)
+            #if summary_choice == 'Sumy Lex Rank 1':
+            #    summary_result = sumy_summarizer(raw_text)
+            #elif summary_choice == 'Sumy Lex Rank':
+            #    summary_result = sumy_summarizer(raw_text)
+            summary_result = sumy_summarizer(raw_text)
             st.write(summary_result)
 
 
