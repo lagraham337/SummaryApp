@@ -8,6 +8,10 @@ sumy = "*"
 streamlit = "*"
 certifi = "*"
 pyautogui = "*"
+setuptools = "*"
+wheel = "*"
+spacy = "*"
+beautifulsoup4 = "*"
 
 [dev-packages]
 
