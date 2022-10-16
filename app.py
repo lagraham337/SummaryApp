@@ -164,7 +164,7 @@ Note: The Clear button can be used to clear the text or input areas.
         
         # ANGELA WILL MAKE A MICROSERVICE TO PROCESS IMAGE FILES
         st.title("IMG 📸")
-        st.write("Extract or summarize text from an image.")
+        st.write("Save yourself some time. Extract or summarize text directly from an image.")
         with st.form("myformsumIMG"):
             image_file = st.file_uploader("Choose an image file with clear text present.", type=['png', 'jpg', 'jpeg'], accept_multiple_files=False, key="IMG", help="Jpg, jpeg and png files are supported. Gif, webm, and video files are not supported.", on_change=None, label_visibility="visible")
             f3, f4, f5, f10 = st.columns([1, 1, 5, 1]) 
