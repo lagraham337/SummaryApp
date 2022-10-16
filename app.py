@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import pyautogui
 
 import nltk
 nltk.download("punkt")
@@ -33,19 +34,30 @@ def main():
     activities = ["Summarize", "NER Checker", "NER for URL"]
     choice = st.sidebar.selectbox("Select Activity", activities)
 
+
+    def clear_form():   # clearing text https://discuss.streamlit.io/t/clear-the-text-in-text-input/2225/10 
+        st.session_state["Enter Text Here:"] = ""
+    
     if choice == 'Summarize':
+
         st.subheader("Tl;dr")
-        raw_text = st.text_area("Enter Text Here", "Type Here")
-        #summary_choice = st.selectbox("Summary Choice", ["Sumy Lex Rank 1", "Sumy Lex Rank"])
-        if st.button("Summarize"):
-            
-            #if summary_choice == 'Sumy Lex Rank 1':
-            #    summary_result = sumy_summarizer(raw_text)
-            #elif summary_choice == 'Sumy Lex Rank':
-            #    summary_result = sumy_summarizer(raw_text)
-            summary_result = sumy_summarizer(raw_text)
+
+
+        with st.form("myform"):
+            raw_text = st.text_area("Enter Text Here:", key="Enter Text Here:", placeholder = "Type Here")
+            f3, f4, f5, f6, f7, f8 = st.columns([1, 1, 1, 1, 1, 1]) # columns for purpose of aligning buttons
+            with f3:
+                summarize = st.form_submit_button(label="Summarize")
+            with f4:
+                clear = st.form_submit_button(label="Clear", on_click=clear_form)
+
+        if summarize:
+            st.info('Summarizing...')
+            summary_result = sumy_summarizer(raw_text)  # using sumy
             st.write(summary_result)
 
+        if clear:
+            st.write('Text was cleared')
 
 
 
