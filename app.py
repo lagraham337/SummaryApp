@@ -72,6 +72,23 @@ def main():
 
             }
         )
+        with st.expander("About"):
+            st.write("""
+        The purpose of this app is for users to paste text, a URL, or upload an image file and receive a text summary, text preview, or text extraction. It is being developed using Streamlit and a number of Python libraries including NLTK and Spacy.
+
+It is currently in Alpha stage of development.""") 
+        with st.expander("Tutorial"):
+            st.write("""To test out the features, it is recommended to do the following:
+            1. visit the following page:
+
+https://www.ibm.com/cloud/learn/natural-language-processing 
+
+2a. From this website, copy a portion of the text, 2b. click Input Text in the navigation bar, 2c. and paste it into the text box. 2d. Click Summarize to generate a summary.
+
+3a. Next, copy the URL from IBM's webpage, 3b. click Input URL in the navigation bar, 3c. and paste it into the URL box. 3d. Click Preview to see some of the contents of the webpage, or click Summarize to summarize the entire article.
+
+Note: The Clear button can be used to clear the text or input areas.
+    """)
 
     def clear_form():   # clearing text https://discuss.streamlit.io/t/clear-the-text-in-text-input/2225/10 
         st.session_state["Enter Text Here:"] = ""
