@@ -1,29 +1,19 @@
 import streamlit as st
-from streamlit_option_menu import option_menu
+from streamlit_option_menu import option_menu # nav
 import pandas as pd
 import numpy as np
 import random
 
 import nltk
-#nltk.download("punkt")
+#nltk.download("punkt") # may need this if encounter an error
 
-# NLP
-import spacy
-from spacy.cli.download import download
-##download(model="en_core_web_sm")
-nlp = spacy.load('en_core_web_sm')
-from spacy import displacy
-HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid #e6e9ef; border-radius: 0.25rem; padding: 1rem">{}</div>"""
-
-
-# Summary packages
-#from gensim.summarization import summarize
-# source: https://blog.jcharistech.com/2019/01/05/how-to-summarize-text-or-document-with-sumy/
 # sumy summary package 
+# source: https://blog.jcharistech.com/2019/01/05/how-to-summarize-text-or-document-with-sumy/
 from sumy.parsers.plaintext import PlaintextParser
 from sumy.nlp.tokenizers import Tokenizer
 from sumy.summarizers.lex_rank import LexRankSummarizer
 
+#sumy summary function which includes tokenizer
 def sumy_summarizer(docx):
     parser = PlaintextParser.from_string(docx,Tokenizer('English'))
     lex_summarizer = LexRankSummarizer()
@@ -32,7 +22,18 @@ def sumy_summarizer(docx):
     result = ''.join(summary_list)
     return result
 
-# NLP
+
+# NLP libraries for NER component
+import spacy
+from spacy.cli.download import download
+##download(model="en_core_web_sm") # may need this if encounter an error
+nlp = spacy.load('en_core_web_sm')
+from spacy import displacy
+
+# makes outputted entities more readable
+HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid #e6e9ef; border-radius: 0.25rem; padding: 1rem">{}</div>"""
+
+# NLP to generate entities DOES NOT WORK********
 @st.cache(allow_output_mutation=True)
 def analyze_text(text):
     return nlp(text)
@@ -44,36 +45,21 @@ from urllib.request import urlopen, Request
 from urllib.request import FancyURLopener
 from random import choice
 
-# get text from raw URL 
+# get text from raw URL. WORKS INCONSISTENTLY. SOME WEBSITES DENY PERMISSION*********
 @st.cache
-#https://matix.io/extract-text-from-webpage-using-beautifulsoup-and-python/
+# source https://matix.io/extract-text-from-webpage-using-beautifulsoup-and-python/
 def get_text(raw_url):
+    """Get text from raw URL"""
     page = urlopen(raw_url)
     soup = BeautifulSoup(page, features="lxml")
     fetched_text = ''.join(map(lambda p:p.text,soup.find_all('p')))
     return fetched_text
 
 
-# callback to update emojis in Session State
-# in response to the on_click event
-def random_emoji():
-    st.session_state.emoji = random.choice(emojis)
-
-# initialize emoji as a Session State variable
-if "emoji" not in st.session_state:
-    st.session_state.emoji = "👈"
-
-emojis = ["📚", "📘", "📗", "📙", "📕", "📒", "📓"]
-
-
 def main():
-    """Summary and entity checker"""
+    """Text Summarizer and Entity Checker, Sumy, NLTK, Spacy"""
 
     page_title="Comprehension Science",
-    #st.title("Comprehension Science")
-
-    #activities = ["Input Text", "Input URL", "Input IMG", "NER Checker",]
-    #choice = st.sidebar.selectbox("Select Input Type", activities)
 
     with st.sidebar:
         selected = option_menu(
@@ -99,8 +85,8 @@ def main():
         st.write("That's okay. Paste that verbose, windy, logorheic, circumocutory piece of text below.")
 
         with st.form("myformsumtext"):
-            raw_text = st.text_area("Enter Text Here:", key="Enter Text Here:", placeholder = "Type here " + st.session_state.emoji)
-            f3, f4, f5, f6, f7, f8, f9, f10 = st.columns([1, 1, 1, 1, 1, 1, 1, 1]) # columns for purpose of aligning buttons
+            raw_text = st.text_area("Enter Text Here:", key="Enter Text Here:", placeholder = "Type here 👈")
+            f3, f4, f5, f10 = st.columns([1, 1, 5, 1]) # columns for purpose of aligning buttons
             with f3:
                 summarize = st.form_submit_button(label="Summarize")
             with f10:
@@ -112,15 +98,16 @@ def main():
             st.write(summary_result)
 
         if clear:
-            st.write('Text was cleared')
+            st.write('Text was cleared.')
 
 
     if selected == 'Input URL':
+        # WORKS INCONSISTENTLY. SOME WEBSITES DENY PERMISSION*********
         st.title("URL ⛓")
         st.write("Summarize text, preview text, or both! All you need is a URL.")
         with st.form("myformsumURL"):
             raw_url = st.text_input("Enter URL", key="Enter URL", placeholder = "Paste a valid URL here")
-            f3, f4, f5, f6, f7, f8, f9, f10 = st.columns([1, 1, 1, 1, 1, 1, 1, 1]) # columns for purpose of aligning buttons
+            f3, f4, f5, f10 = st.columns([1, 1, 5, 1]) # columns for purpose of aligning buttons
             with f3:
                 preview = st.form_submit_button(label="Preview")
             with f4:
@@ -149,41 +136,44 @@ def main():
                 st.write("Sorry, this website has not approved the program to retrieve data.")
 
         if clear:
-            st.write('Text was cleared')
+            st.write('Text was cleared.')
 
     if selected == 'Input IMG':
+        # ANGELA WILL MAKE A MICROSERVICE TO PROCESS IMAGE FILES
         st.title("IMG 📸")
-        st.write("Extract or summarize text from an image")
+        st.write("Extract or summarize text from an image.")
         with st.form("myformsumIMG"):
-            image_file = st.file_uploader("Choose an image file", type=['png', 'jpg', 'jpeg'], accept_multiple_files=False, key="IMG", help="Jpg, jpeg and png files are supported. Gif, webm, and video files are not supported.", on_change=None, label_visibility="visible")
-            f3, f4, f5, f10 = st.columns([1, 1, 5, 1]) # columns for purpose of aligning buttons
+            image_file = st.file_uploader("Choose an image file with clear text present.", type=['png', 'jpg', 'jpeg'], accept_multiple_files=False, key="IMG", help="Jpg, jpeg and png files are supported. Gif, webm, and video files are not supported.", on_change=None, label_visibility="visible")
+            f3, f4, f5, f10 = st.columns([1, 1, 5, 1]) 
             with f3:
-                preview = st.form_submit_button(label="Preview")
+                extract = st.form_submit_button(label="Extract")
             with f4:
                 summarize = st.form_submit_button(label="Summarize")
             with f10:
                 clear = st.form_submit_button(label="Clear", on_click=clear_form)
-        text_length = st.slider("Use the slider to indicate the proportional length you wish to cut from the preview. Unlike a summary, a preview will not paraphrase.", 100, 10)
-        if preview:
+        if extract:
             try:
+                
+                st.write("This feature has not yet been implemented, but here's the picture you already have.")
                 st.image(image_file, caption=None, width=None, use_column_width='auto', clamp=False, channels="RGB", output_format="auto")
-                st.write("This feature has not yet been implemented.")
-            except:
-                st.write("Sorry, this website has not approved the program to retrieve data.")
 
+            except:
+                st.write("This feature has not yet been implemented.")
         if summarize:
             try:
+                
+                st.write("This feature has not yet been implemented, but here's the picture you already have.")
                 st.image(image_file, caption=None, width=None, use_column_width='auto', clamp=False, channels="RGB", output_format="auto")
-                st.write("This feature has not yet been implemented.")
                 
             except:
-                st.write("Sorry, this website has not approved the program to retrieve data.")
+                st.write("This feature has not yet been implemented.")
 
         if clear:
-            st.write('Upload was cleared')
+            st.write('Upload was cleared.')
 
 
     if selected == 'NER Checker':
+        # NOT WORKING
         st.title("Entity Recognition with Spacy")
 
         with st.form("myformNER"):
@@ -202,7 +192,7 @@ def main():
             st.write(html, unsafe_allow_html=True)
 
         if clear:
-            st.write('Text was cleared')
+            st.write('Text was cleared.')
 
 if __name__ == '__main__':
     main()
