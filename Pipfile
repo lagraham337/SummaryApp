@@ -12,6 +12,7 @@ setuptools = "*"
 wheel = "*"
 spacy = "*"
 beautifulsoup4 = "*"
+requests = "*"
 
 [dev-packages]
 

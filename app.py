@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 
 import nltk
-nltk.download("punkt")
+#nltk.download("punkt")
 
 # NLP
 import spacy
@@ -43,27 +43,27 @@ from urllib.request import FancyURLopener
 from random import choice
 
 # user agents so websites don't think we're a bot when we use their URLs
-user_agents = [
-    'Mozilla/5.0 (Windows; U; Windows NT 5.1; it; rv:1.8.1.11) Gecko/20071127 Firefox/2.0.0.11',
-    'Opera/9.25 (Windows NT 5.1; U; en)',
-    'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)',
-    'Mozilla/5.0 (compatible; Konqueror/3.5; Linux) KHTML/3.5.5 (like Gecko) (Kubuntu)',
-    'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.12) Gecko/20070731 Ubuntu/dapper-security Firefox/1.5.0.12',
-    'Lynx/2.8.5rel.1 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/1.2.9'
-]
+#user_agents = [
+#    'Mozilla/5.0 (Windows; U; Windows NT 5.1; it; rv:1.8.1.11) Gecko/20071127 Firefox/2.0.0.11',
+#    'Opera/9.25 (Windows NT 5.1; U; en)',
+#    'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)',
+#    'Mozilla/5.0 (compatible; Konqueror/3.5; Linux) KHTML/3.5.5 (like Gecko) (Kubuntu)',
+#    'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.12) Gecko/20070731 Ubuntu/dapper-security Firefox/1.5.0.12',
+#    'Lynx/2.8.5rel.1 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/1.2.9'
+#]
 
-class MyOpener(FancyURLopener, object):
-    version = choice(user_agents)
+#class MyOpener(FancyURLopener, object):
+##    version = choice(user_agents)
 
-myopener = MyOpener()
-myopener.retrieve('http://www.useragent.org/', 'useragent.html')
+#myopener = MyOpener()
+#myopener.retrieve('http://www.useragent.org/', 'useragent.html')
 
 # get text from raw URL 
 @st.cache
 #https://matix.io/extract-text-from-webpage-using-beautifulsoup-and-python/
 def get_text(raw_url):
     page = urlopen(raw_url)
-    soup = BeautifulSoup(page)
+    soup = BeautifulSoup(page, features="lxml")
     fetched_text = ''.join(map(lambda p:p.text,soup.find_all('p')))
     return fetched_text
 
@@ -124,26 +124,26 @@ def main():
 
 
     if choice == 'Input URL':
-        st.subheader("Summarize text, extract text, or both! All you need is a URL.")
+        st.subheader("Summarize text, preview text, or both! All you need is a URL.")
         #st.caption("You can also choose to extract text")
         with st.form("myformsumURL"):
             raw_url = st.text_input("Enter URL", key="Enter URL", placeholder = "Paste a valid URL here")
             f3, f4, f5, f6, f7, f8, f9, f10 = st.columns([1, 1, 1, 1, 1, 1, 1, 1]) # columns for purpose of aligning buttons
             with f3:
-                extract = st.form_submit_button(label="Extract")
+                preview = st.form_submit_button(label="Preview")
             with f4:
                 summarize = st.form_submit_button(label="Summarize")
             with f10:
                 clear = st.form_submit_button(label="Clear", on_click=clear_form)
-        #text_length = st.slider("Length to Preview", 50, 100)
-        if extract:
+        text_length = st.slider("Use the slider to indicate the proportional length you wish to cut from the preview. Unlike a summary, a preview will not paraphrase.", 100, 10)
+        if preview:
             try:
-                st.info("Extracting text...")
+                st.info("Extracting text for preview...")
                 raw_text = get_text(raw_url)
-                #len_of_full_text = len(raw_text)
-                #len_of_short_text = round(len(raw_text)/text_length)
-                #st.write(summaryURL_result[:len_of_short_text])
-                st.write(raw_text)
+                len_of_full_text = len(raw_text)
+                len_of_short_text = round(len_of_full_text/text_length)
+                st.write(raw_text[:len_of_short_text])
+                #st.write(raw_text)
             except:
                 st.write("Sorry, this website has not approved the program to retrieve data.")
 
