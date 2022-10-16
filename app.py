@@ -1,6 +1,8 @@
 import streamlit as st
+from streamlit_option_menu import option_menu
 import pandas as pd
 import numpy as np
+import random
 
 import nltk
 #nltk.download("punkt")
@@ -42,22 +44,6 @@ from urllib.request import urlopen, Request
 from urllib.request import FancyURLopener
 from random import choice
 
-# user agents so websites don't think we're a bot when we use their URLs
-#user_agents = [
-#    'Mozilla/5.0 (Windows; U; Windows NT 5.1; it; rv:1.8.1.11) Gecko/20071127 Firefox/2.0.0.11',
-#    'Opera/9.25 (Windows NT 5.1; U; en)',
-#    'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)',
-#    'Mozilla/5.0 (compatible; Konqueror/3.5; Linux) KHTML/3.5.5 (like Gecko) (Kubuntu)',
-#    'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.12) Gecko/20070731 Ubuntu/dapper-security Firefox/1.5.0.12',
-#    'Lynx/2.8.5rel.1 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/1.2.9'
-#]
-
-#class MyOpener(FancyURLopener, object):
-##    version = choice(user_agents)
-
-#myopener = MyOpener()
-#myopener.retrieve('http://www.useragent.org/', 'useragent.html')
-
 # get text from raw URL 
 @st.cache
 #https://matix.io/extract-text-from-webpage-using-beautifulsoup-and-python/
@@ -67,26 +53,53 @@ def get_text(raw_url):
     fetched_text = ''.join(map(lambda p:p.text,soup.find_all('p')))
     return fetched_text
 
+
+# callback to update emojis in Session State
+# in response to the on_click event
+def random_emoji():
+    st.session_state.emoji = random.choice(emojis)
+
+# initialize emoji as a Session State variable
+if "emoji" not in st.session_state:
+    st.session_state.emoji = "👈"
+
+emojis = ["📚", "📘", "📗", "📙", "📕", "📒", "📓"]
+
+
 def main():
     """Summary and entity checker"""
 
-    st.title("Comprehension Science")
+    page_title="Comprehension Science",
+    #st.title("Comprehension Science")
 
-    activities = ["Input Text", "Input URL", "NER Checker"]
-    choice = st.sidebar.selectbox("Select Activity", activities)
+    #activities = ["Input Text", "Input URL", "Input IMG", "NER Checker",]
+    #choice = st.sidebar.selectbox("Select Input Type", activities)
 
+    with st.sidebar:
+        selected = option_menu(
+            menu_title = "Select Input Type",
+            options = ["Input Text", "Input URL", "Input IMG"],
+            icons = ["journal-text", "link-45deg", "file-image", "boxes"],
+            menu_icon = "door-open",
+            orientation = "vertical",
+            styles = {
+
+            }
+        )
 
     def clear_form():   # clearing text https://discuss.streamlit.io/t/clear-the-text-in-text-input/2225/10 
         st.session_state["Enter Text Here:"] = ""
         st.session_state["Enter Text Here: "] = ""
         st.session_state["Enter URL"] = ""
+        st.session_state["Choose an image file"] = ""
     
-    if choice == 'Input Text':
+    if selected == 'Input Text':
 
-        st.subheader("Tl;dr")
+        st.title("Tl;dr? 📚")
+        st.write("That's okay. Paste that verbose, windy, logorheic, circumocutory piece of text below.")
 
         with st.form("myformsumtext"):
-            raw_text = st.text_area("Enter Text Here:", key="Enter Text Here:", placeholder = "Type Here")
+            raw_text = st.text_area("Enter Text Here:", key="Enter Text Here:", placeholder = "Type here " + st.session_state.emoji)
             f3, f4, f5, f6, f7, f8, f9, f10 = st.columns([1, 1, 1, 1, 1, 1, 1, 1]) # columns for purpose of aligning buttons
             with f3:
                 summarize = st.form_submit_button(label="Summarize")
@@ -101,8 +114,77 @@ def main():
         if clear:
             st.write('Text was cleared')
 
-    if choice == 'NER Checker':
-        st.subheader("Entity Recognition with Spacy")
+
+    if selected == 'Input URL':
+        st.title("URL ⛓")
+        st.write("Summarize text, preview text, or both! All you need is a URL.")
+        with st.form("myformsumURL"):
+            raw_url = st.text_input("Enter URL", key="Enter URL", placeholder = "Paste a valid URL here")
+            f3, f4, f5, f6, f7, f8, f9, f10 = st.columns([1, 1, 1, 1, 1, 1, 1, 1]) # columns for purpose of aligning buttons
+            with f3:
+                preview = st.form_submit_button(label="Preview")
+            with f4:
+                summarize = st.form_submit_button(label="Summarize")
+            with f10:
+                clear = st.form_submit_button(label="Clear", on_click=clear_form)
+        text_length = st.slider("Use the slider to indicate the proportional length you wish to cut from the preview. Unlike a summary, a preview will not paraphrase.", 100, 10)
+        if preview:
+            try:
+                st.info("Extracting text for preview...")
+                raw_text = get_text(raw_url)
+                len_of_full_text = len(raw_text)
+                len_of_short_text = round(len_of_full_text/text_length)
+                st.write(raw_text[:len_of_short_text])
+            except:
+                st.write("Sorry, this website has not approved the program to retrieve data.")
+
+        if summarize:
+            try:
+                st.info('Summarizing...')
+                raw_text = get_text(raw_url)
+                summaryURL_result = sumy_summarizer(raw_text)  # using sumy
+                st.write(summaryURL_result)
+                
+            except:
+                st.write("Sorry, this website has not approved the program to retrieve data.")
+
+        if clear:
+            st.write('Text was cleared')
+
+    if selected == 'Input IMG':
+        st.title("IMG 📸")
+        st.write("Extract or summarize text from an image")
+        with st.form("myformsumIMG"):
+            image_file = st.file_uploader("Choose an image file", type=['png', 'jpg', 'jpeg'], accept_multiple_files=False, key="IMG", help="Jpg, jpeg and png files are supported. Gif, webm, and video files are not supported.", on_change=None, label_visibility="visible")
+            f3, f4, f5, f10 = st.columns([1, 1, 5, 1]) # columns for purpose of aligning buttons
+            with f3:
+                preview = st.form_submit_button(label="Preview")
+            with f4:
+                summarize = st.form_submit_button(label="Summarize")
+            with f10:
+                clear = st.form_submit_button(label="Clear", on_click=clear_form)
+        text_length = st.slider("Use the slider to indicate the proportional length you wish to cut from the preview. Unlike a summary, a preview will not paraphrase.", 100, 10)
+        if preview:
+            try:
+                st.image(image_file, caption=None, width=None, use_column_width='auto', clamp=False, channels="RGB", output_format="auto")
+                st.write("This feature has not yet been implemented.")
+            except:
+                st.write("Sorry, this website has not approved the program to retrieve data.")
+
+        if summarize:
+            try:
+                st.image(image_file, caption=None, width=None, use_column_width='auto', clamp=False, channels="RGB", output_format="auto")
+                st.write("This feature has not yet been implemented.")
+                
+            except:
+                st.write("Sorry, this website has not approved the program to retrieve data.")
+
+        if clear:
+            st.write('Upload was cleared')
+
+
+    if selected == 'NER Checker':
+        st.title("Entity Recognition with Spacy")
 
         with st.form("myformNER"):
             raw_text = st.text_area("Enter Text Here: ", key="Enter Text Here: ", placeholder = "Type Here")
@@ -121,56 +203,6 @@ def main():
 
         if clear:
             st.write('Text was cleared')
-
-
-    if choice == 'Input URL':
-        st.subheader("Summarize text, preview text, or both! All you need is a URL.")
-        #st.caption("You can also choose to extract text")
-        with st.form("myformsumURL"):
-            raw_url = st.text_input("Enter URL", key="Enter URL", placeholder = "Paste a valid URL here")
-            f3, f4, f5, f6, f7, f8, f9, f10 = st.columns([1, 1, 1, 1, 1, 1, 1, 1]) # columns for purpose of aligning buttons
-            with f3:
-                preview = st.form_submit_button(label="Preview")
-            with f4:
-                summarize = st.form_submit_button(label="Summarize")
-            with f10:
-                clear = st.form_submit_button(label="Clear", on_click=clear_form)
-        text_length = st.slider("Use the slider to indicate the proportional length you wish to cut from the preview. Unlike a summary, a preview will not paraphrase.", 100, 10)
-        if preview:
-            try:
-                st.info("Extracting text for preview...")
-                raw_text = get_text(raw_url)
-                len_of_full_text = len(raw_text)
-                len_of_short_text = round(len_of_full_text/text_length)
-                st.write(raw_text[:len_of_short_text])
-                #st.write(raw_text)
-            except:
-                st.write("Sorry, this website has not approved the program to retrieve data.")
-
-        if summarize:
-            try:
-                st.info('Summarizing...')
-                raw_text = get_text(raw_url)
-                summaryURL_result = sumy_summarizer(raw_text)  # using sumy
-                st.write(summaryURL_result)
-                
-            except:
-                st.write("Sorry, this website has not approved the program to retrieve data.")
-
-        if clear:
-            st.write('Text was cleared')
-
-
-
-
-        #raw_url = st.text_input("Enter URL", placeholder = "Paste a valid URL here")
-        #if st.button("Extract"):
-        #    if raw_url != "Type here":
-        #        result = get_text(raw_url)
-        #        len_of_full_text = len(result)
-        #        st.write(result)
-        #    else:
-        #        st.write("Please paste only URLs")
 
 if __name__ == '__main__':
     main()

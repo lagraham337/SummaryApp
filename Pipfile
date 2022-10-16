@@ -13,6 +13,7 @@ wheel = "*"
 spacy = "*"
 beautifulsoup4 = "*"
 requests = "*"
+streamlit-option-menu = "*"
 
 [dev-packages]
 
