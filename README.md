@@ -20,4 +20,4 @@ https://www.neh.gov/humanities/2015/marchapril/feature/how-the-grimm-brothers-sa
 
 These may also be good sources to copy text directly for trying the main page.
 
-[<img src="https://i9.ytimg.com/vi/Dwzc0zhGkEA/mq2.jpg?sqp=CKTfsZoG&rs=AOn4CLDKBmipYkqWtCCUf6rRmMfmz9tyaA" width="50%">](https://youtu.be/Dwzc0zhGkEA "Cognitive Style Heuristics")
+[<img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg")
