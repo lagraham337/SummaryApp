@@ -16,7 +16,7 @@ These may also be good sources to copy text directly for trying the main page.
 
 [<img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" width="5%">](https://youtu.be/Dwzc0zhGkEA "Cognitive Style Heuristics")
 
-## Installation
+## Usage
 
 Use the package manager [pip](https://pypi.org/project/pip/) to install pipenv:
 
