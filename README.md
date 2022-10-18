@@ -6,17 +6,14 @@ It is currently in Alpha.
 The IMG page does not extract text.
 The URL page works inconsistently. I recommended trying the following URLs for fun:
 
-Natural Language Processing
-https://www.ibm.com/cloud/learn/natural-language-processing 
+[Natural Language Processing]
+(https://www.ibm.com/cloud/learn/natural-language-processing)
 
-What Is Coastal Engineering
-https://geo.libretexts.org/Bookshelves/Oceanography/Coastal_Dynamics_(Bosboom_and_Stive)/01%3A_Overview/1.02%3A_Coastal_dynamics_for_coastal_engineers/1.2.01%3A_What_is_coastal_engineering 
+[What Is Coastal Engineering]
+(https://geo.libretexts.org/Bookshelves/Oceanography/Coastal_Dynamics_(Bosboom_and_Stive)/01%3A_Overview/1.02%3A_Coastal_dynamics_for_coastal_engineers/1.2.01%3A_What_is_coastal_engineering)
 
-About Jungian Analysis
-https://nyaap.org/about-jungian-analysis/
-
-How The Grimm Brothers Saved The Fairy Tale
-https://www.neh.gov/humanities/2015/marchapril/feature/how-the-grimm-brothers-saved-the-fairy-tale
+[How The Grimm Brothers Saved The Fairy Tale]
+(https://www.neh.gov/humanities/2015/marchapril/feature/how-the-grimm-brothers-saved-the-fairy-tale)
 
 These may also be good sources to copy text directly for trying the main page.
 
