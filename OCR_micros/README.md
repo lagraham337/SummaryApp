@@ -6,7 +6,7 @@ To run the ocr.py file, you will need to install:
 <li>pytesseract</li>
 <li>pillow</li></ul>
 
-To install Tesseract begin by identifying the correct <a href='https://tesseract-ocr.github.io/tessdoc/Installation.html'>installer</a> for your operating system.
+To install Tesseract begin by identifying the correct <a href='https://tesseract-ocr.github.io/tessdoc/Installation.html'>installer</a> for your operating system. Below are a few common options. If you run into trouble, please reference the <a href='https://tesseract-ocr.github.io/tessdoc/Installation.html'>Tesseract documentation</a> for more information.
 
 <h3>Windows</h3>
 
