@@ -7,4 +7,13 @@ To run the ocr.py file, you will need to install:
 <li>pillow</li></ul>
 
 Tesseract is an open source text recognition (ORC) engine commonly used to extract text from images. 
-To install Tesseract being by identifying the correct <a href='https://tesseract-ocr.github.io/tessdoc/Installation.html'>installer</a> for your operating system. 
+To install Tesseract begin by identifying the correct <a href='https://tesseract-ocr.github.io/tessdoc/Installation.html'>installer</a> for your operating system.
+
+Ubuntu
+You can install Tesseract and its developer tools on Ubuntu by simply running:
+'''
+
+sudo apt install tesseract-ocr
+sudo apt install libtesseract-dev
+
+'''
