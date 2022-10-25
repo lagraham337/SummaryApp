@@ -1,6 +1,6 @@
 """
 OCR microsservice server for Comprehenson Science Project
-Binds REP socket to tcp://*:8492
+Binds REP socket to tcp://*:4444
 Expects image file from client
 Replies with extracted text from image
 
@@ -10,13 +10,12 @@ Title: "Get Started"
 Source URL: https://zeromq.org/get-started/?language=python&library=pyzmq#
 """
 
-import time
 import zmq
-
+from ocr import orc
 
 context = zmq.Context()
 socket = context.socket(zmq.REP)
-socket.bind("tcp://*:8492")
+socket.bind("tcp://*:4444")
 
 print("Server is running!")
 
@@ -26,8 +25,8 @@ while True:
     print(f"Received request: {message}")
 
     #  Do some 'work'
-    time.sleep(1)
+    response = orc(message)
 
     #  Send reply back to client
-    socket.send(b"World")
+    socket.send_string(response)
     
