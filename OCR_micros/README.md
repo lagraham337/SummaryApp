@@ -9,16 +9,19 @@ To run the ocr.py file, you will need to install:
 To install Tesseract begin by identifying the correct <a href='https://tesseract-ocr.github.io/tessdoc/Installation.html'>installer</a> for your operating system.
 
 <h3>Windows</h3>
+
 ```
 https://github.com/UB-Mannheim/tesseract/wiki
 ```
 
 <h3>macOS</h3>
+
 ```
 brew install tesseract
 ```
 
 <h3>Ubuntu</h3>
+
 ```
 sudo apt install tesseract-ocr
 sudo apt install libtesseract-dev
