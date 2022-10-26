@@ -30,8 +30,8 @@ sudo apt install tesseract-ocr
 sudo apt install libtesseract-dev
 ```
 
-
-<h2>IMPORTANT!</h2>
+<hr></hr>
+<h3>IMPORTANT!</h3>
 Now that you've installed Tesseract, you will need to identify the installation path. 
 To do so, you can type the command below into your terminal. 
 <br></br>
@@ -41,6 +41,8 @@ Copy the path into the path_to_tess variable. Example: path_to_tess = r'your_pat
 ```
 where tesseract
 ```
+
+<hr></hr>
 
 <h3>pytesseract</h3>
 Pytesseract is an OCR tool built specifially to work with python. It's a wrapper for the larger Tesseract project. To install pytesseract, run the following command in your terminal. Make sure your are in the correct directory (i.e. OCR_micros).
@@ -63,6 +65,25 @@ The server.py file uses ZeroMQ to build the communication pipe. ZeroMQ should no
 <br></br>
 However, if you run into trouble, please reference the <a href='https://zeromq.org/get-started/'>ZeroMQ documentation</a>.
 
+To run server.py, run the following command in your terminal. Make sure you are in the OCR_micros directory.
+
+```
+python3 server.py
+```
+
 
 <h4>Troubleshooting server.py</h4>
 If server.py does not appear to be working, you should first check the <em>port number</em>.
+
+<h2>Client_test.py</h2>
+This is the client side code used to test server.py while the client-side server is being built. This file should not be used for anything other than testing the communication pipe.
+
+To run client_test.py, run the following command in your terminal. Make sure you are in the OCR_micros directory. 
+
+```
+python3 client_test.py
+```
+
+<h2>Contact Information</h2>
+monteza@oregonstate.edu
+date: 10/25/2022
