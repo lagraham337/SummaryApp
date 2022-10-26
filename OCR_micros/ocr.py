@@ -1,7 +1,7 @@
 """
 Code for OCR Microservice.
 
-Code copied from Python-Bloggers
+Code adapted from Python-Bloggers
 Date: 10/25/2022
 Title: Extract Text from Image using Python
 Source URL: https://python-bloggers.com/2022/05/extract-text-from-image-using-python/
