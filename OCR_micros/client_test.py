@@ -10,8 +10,8 @@ Title: "Get Started"
 Source URL: https://zeromq.org/get-started/?language=python&library=pyzmq#
 """
 
-import zmq
 import os
+import zmq
 
 context = zmq.Context()
 
@@ -27,7 +27,6 @@ for root, dirs, file_names in os.walk(PATH_TO_IMG):
     for file_name in file_names:
         full_path = PATH_TO_IMG + file_name
         socket.send_string(full_path)
-        
         #  Get the reply
         message = socket.recv()
         print(f"Received reply {message}")
