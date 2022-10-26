@@ -80,6 +80,7 @@ If server.py does not appear to be working, first check the <em>port number</em>
 This is the client side code used to test server.py while the client-side server is being built. This file should not be used for anything other than testing the communication pipe.
 <br></br>
 To run client_test.py, copy the following command in your terminal. Make sure you are in the OCR_micros directory. 
+<br></br>
 
 ```
 python3 client_test.py
