@@ -88,5 +88,5 @@ python3 client_test.py
 
 <h2>Contact Information</h2>
 monteza@oregonstate.edu
-<br></br>
-date: 10/25/2022
+
+Date: 10/25/2022
