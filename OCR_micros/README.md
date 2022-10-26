@@ -35,8 +35,9 @@ sudo apt install libtesseract-dev
 Now that you've installed Tesseract, you will need to identify the installation path. 
 To do so, you can type the command below into your terminal. 
 <br></br>
-Copy the path into the path_to_tess variable. Example: path_to_tess = r'your_path'
-
+Copy the path into the path_to_tess variable located in ocr.py
+Example: path_to_tess = r'your_path'
+<br></br>
 
 ```
 where tesseract
@@ -73,11 +74,11 @@ python3 server.py
 
 
 <h4>Troubleshooting server.py</h4>
-If server.py does not appear to be working, you should first check the <em>port number</em>.
+If server.py does not appear to be working, first check the <em>port number</em>.
 
 <h2>Client_test.py</h2>
 This is the client side code used to test server.py while the client-side server is being built. This file should not be used for anything other than testing the communication pipe.
-
+<br></br>
 To run client_test.py, run the following command in your terminal. Make sure you are in the OCR_micros directory. 
 
 ```
@@ -86,4 +87,5 @@ python3 client_test.py
 
 <h2>Contact Information</h2>
 monteza@oregonstate.edu
+<br></br>
 date: 10/25/2022
