@@ -73,6 +73,33 @@ python3 server.py
 ```
 
 
+Server.py creates a TCP socket bound to an IP address respresented with an astrick at port 4444.
+
+
+```
+socket.bind("tcp://*:4444")
+```
+
+It then waits for an incoming message. Once an incoming message is received, it makes a call to ocr.py, which does the data extraction.
+
+
+```
+response = orc(message)
+```
+
+
+It then send the "response" (i.e. the extracted text) back to the client via the socket connection at "tcp://*:4444". 
+
+
+```
+socket.send_string(response)
+```
+
+
+<b>Note:</b> the response is sent as binary. So, it may need to be decoded. Example: b'Sample Text 1\n'
+
+<br></br>
+
 <h4>Troubleshooting server.py</h4>
 If server.py does not appear to be working, first check the <em>port number</em>.
 
