@@ -112,7 +112,7 @@ python3 client_test.py
 ```
 
 <h2>UML Sequence Diagram</h2>
-<img src='OCR_micros/UML.png' alt="UML Diagram">
+<img src='../OCR_micros/UML.png' alt="UML Diagram">
 
 <h2>Contact Information</h2>
 monteza@oregonstate.edu
