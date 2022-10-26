@@ -30,26 +30,30 @@ sudo apt install tesseract-ocr
 sudo apt install libtesseract-dev
 ```
 
+
 <h3>IMPORTANT!</h3>
 Now that you've installed Tesseract, you will need to identify the installation path. 
 To do so, you can type the command below into your terminal. 
 <br></br>
 Copy the path into the path_to_tess variable. Example: path_to_tess = r'your_path'
-<br></br>
+
+
 ```
 where tesseract
 ```
 
 <h3>pytesseract</h3>
 Pytesseract is an OCR tool built specifially to work with python. It's a wrapper for the larger Tesseract project. To install pytesseract, run the following command in your terminal. Make sure your are in the correct directory (i.e. OCR_micros).
-<br></br>
+
+
 ```
 pip install pytesseract
 ```
 
 <h3>pillow</h3>
 Pillow is a popular python imaging library. It adds image processing capabilities to the python interpreter. To install pillow, run the following command in your terminal. Make sure your are in the correct directory (i.e. OCR_micros).
-<br></br>
+
+
 ```
 pip install pillow
 ```
@@ -58,6 +62,7 @@ pip install pillow
 The server.py file uses ZeroMQ to build the communication pipe. ZeroMQ should not require any set up appart from library installation. 
 <br></br>
 However, if you run into trouble, please reference the <a href='https://zeromq.org/get-started/'>ZeroMQ documentation</a>.
+
 
 <h3>Troubleshooting server.py</h3>
 If server.py does not appear to be working, you should first check the <em>port number</em>.
