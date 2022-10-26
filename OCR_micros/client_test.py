@@ -1,6 +1,6 @@
 """
 Test code for microservice server
-Connect REQ socket to tcp://localhost:6000
+Connect REQ socket to tcp://localhost:4444
 Sends image file to OCR server
 Expects extracted text back
 
