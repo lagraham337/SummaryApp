@@ -66,7 +66,7 @@ The server.py file uses ZeroMQ to build the communication pipe. ZeroMQ should no
 <br></br>
 However, if you run into trouble, please reference the <a href='https://zeromq.org/get-started/'>ZeroMQ documentation</a>.
 
-To run server.py, run the following command in your terminal. Make sure you are in the OCR_micros directory.
+To run server.py, copy the following command in your terminal. Make sure you are in the OCR_micros directory.
 
 ```
 python3 server.py
@@ -79,7 +79,7 @@ If server.py does not appear to be working, first check the <em>port number</em>
 <h2>Client_test.py</h2>
 This is the client side code used to test server.py while the client-side server is being built. This file should not be used for anything other than testing the communication pipe.
 <br></br>
-To run client_test.py, run the following command in your terminal. Make sure you are in the OCR_micros directory. 
+To run client_test.py, copy the following command in your terminal. Make sure you are in the OCR_micros directory. 
 
 ```
 python3 client_test.py
