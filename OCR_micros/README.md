@@ -97,7 +97,7 @@ socket.send_string(response)
 
 
 <b>Note:</b> the response is sent as binary. So, it may need to be decoded. Example: b'Sample Text 1\n'
-<br></br>
+
 <h3>Troubleshooting server.py</h3>
 If server.py is running but appears not to be working, first check the <em>port number</em>.
 
