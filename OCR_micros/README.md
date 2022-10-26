@@ -62,17 +62,17 @@ pip install pillow
 ```
 
 <h2>Server.py</h2>
-The server.py file uses ZeroMQ to build the communication pipe. ZeroMQ should not require any set up appart from library installation. 
+The server.py file uses ZeroMQ to build the communication pipe. ZeroMQ should not require any set up apart from library installation. 
 <br></br>
 However, if you run into trouble, please reference the <a href='https://zeromq.org/get-started/'>ZeroMQ documentation</a>.
-
+<br></br>
 To run server.py, copy the following command in your terminal. Make sure you are in the OCR_micros directory.
 
 ```
 python3 server.py
 ```
 
-
+<h3> How it works</h3>
 Server.py creates a TCP socket bound to an IP address respresented with an astrick at port 4444.
 
 
@@ -97,11 +97,9 @@ socket.send_string(response)
 
 
 <b>Note:</b> the response is sent as binary. So, it may need to be decoded. Example: b'Sample Text 1\n'
-
 <br></br>
-
 <h4>Troubleshooting server.py</h4>
-If server.py does not appear to be working, first check the <em>port number</em>.
+If server.py is running but appears not to be working, first check the <em>port number</em>.
 
 <h2>Client_test.py</h2>
 This is the client side code used to test server.py while the client-side server is being built. This file should not be used for anything other than testing the communication pipe.
