@@ -111,6 +111,9 @@ To run client_test.py, copy the following command in your terminal. Make sure yo
 python3 client_test.py
 ```
 
+<h2>UML Sequence Diagram</h2>
+<img src='OCR_micros/UML.png' alt="UML Diagram">
+
 <h2>Contact Information</h2>
 monteza@oregonstate.edu
 
