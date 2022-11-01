@@ -2,13 +2,12 @@ import streamlit as st
 from streamlit_option_menu import option_menu # nav
 import pandas as pd
 import numpy as np
-import random
 
 from htbuilder import HtmlElement, div, ul, li, br, hr, a, p, img, styles, classes, fonts
 from htbuilder.units import percent, px
 from htbuilder.funcs import rgba, rgb
 
-import nltk
+#import nltk
 #nltk.download("punkt") # may need this if encounter an error
 
 # sumy summary package 
@@ -114,9 +113,12 @@ Note: The Clear button can be used to clear the text or input areas.
                 clear = st.form_submit_button(label="Clear", on_click=clear_form)
 
         if summarize:
-            st.info('Summarizing...')
-            summary_result = sumy_summarizer(raw_text)  # using sumy
-            st.write(summary_result)
+            try:
+                st.info('Summarizing...')
+                summary_result = sumy_summarizer(raw_text)  # using sumy
+                st.write(summary_result)
+            except:
+                st.write("Sorry, these seems to have been an issue. Please come back later.")
 
         if clear:
             st.write('Text was cleared.')

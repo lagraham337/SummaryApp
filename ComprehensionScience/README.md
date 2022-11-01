@@ -40,7 +40,7 @@ streamlit run app.py
 ```
 or address from github:
 ```bash
-streamlit run https://github.com/lagraham337/SummaryApp/blob/main/app.py
+streamlit run https://github.com/lagraham337/SummaryApp/blob/main/ComprehensionScience/app.py
 ```
 
 If you have difficulty, you may try activating the shell and installing Streamlit in the virtual environment:
