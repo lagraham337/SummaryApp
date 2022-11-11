@@ -16,7 +16,7 @@ def orc(received):
     """
     # Define path to tessaract.exe
     # Need to change path to tesseract location on local machine
-    path_to_tess = r'/opt/homebrew/bin/tesseract'
+    path_to_tess = r'/usr/local/bin/tesseract'
 
     # Point tessaract_cmd to tessaract.exe
     pytesseract.tesseract_cmd = path_to_tess

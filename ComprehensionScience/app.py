@@ -1,11 +1,19 @@
 import streamlit as st
 from streamlit_option_menu import option_menu # nav
+from PIL import Image
 import pandas as pd
+import io
+import os
 import numpy as np
+import requests
+from requests_toolbelt.multipart.encoder import MultipartEncoder
+import zmq
 
 from htbuilder import HtmlElement, div, ul, li, br, hr, a, p, img, styles, classes, fonts
 from htbuilder.units import percent, px
 from htbuilder.funcs import rgba, rgb
+
+
 
 #import nltk
 #nltk.download("punkt") # may need this if encounter an error
@@ -162,9 +170,17 @@ Note: The Clear button can be used to clear the text or input areas.
             st.write('Text was cleared.')
 
     if selected == 'Input IMG':
-        st.image("https://img.freepik.com/free-vector/coming-soon-construction-yellow-background-design_1017-25509.jpg?w=2000&t=st=1665945497~exp=1665946097~hmac=11c2d774f1d79ab624c56155e5b112091695207f74af553831f9e61030f52670")
-        
-        # ANGELA WILL MAKE A MICROSERVICE TO PROCESS IMAGE FILES
+        # Communicate with microservice
+        context = zmq.Context() 
+
+        #  Connect socket to server
+        print("Connecting to OCR server…")
+        socket = context.socket(zmq.REQ)
+        socket.connect("tcp://localhost:4444")
+
+        # Send image file to server
+        PATH_TO_IMG = r'../OCR_micros/sample_images/'
+
         st.title("IMG 📸")
         st.write("Save yourself some time. Extract or summarize text directly from an image.")
         with st.form("myformsumIMG"):
@@ -174,29 +190,33 @@ Note: The Clear button can be used to clear the text or input areas.
                 extract = st.form_submit_button(label="Extract")
             with f4:
                 summarize = st.form_submit_button(label="Summarize")
-            with f10:
-                clear = st.form_submit_button(label="Clear", on_click=clear_form)
         if extract:
             try:
-                
-                st.write("This feature has not yet been implemented, but here's the picture you already have.")
-                st.image(image_file, caption=None, width=None, use_column_width='auto', clamp=False, channels="RGB", output_format="auto")
+                st.write("Extracting text...")
+                path_in = image_file.name
+                full_path = PATH_TO_IMG + path_in
+                socket.send_string(full_path)
+                        #  Get the reply
+                message = socket.recv()
+                st.write(f"{message}")
+                image = st.image(image_file, caption=None, width=None, use_column_width='auto', clamp=False, channels="RGB", output_format="auto")
 
             except:
-                st.write("This feature has not yet been implemented.")
+                st.write("There was an error.")
         if summarize:
-            try:
-                
-                st.write("This feature has not yet been implemented, but here's the picture you already have.")
+            try:       
+                st.write("Summarizing...")     
+                path_in = image_file.name
+                full_path = PATH_TO_IMG + path_in
+                socket.send_string(full_path)
+                        #  Get the reply
+                message = socket.recv()
+                summary_result = sumy_summarizer(message)  # using sumy
+                st.write(summary_result)
                 st.image(image_file, caption=None, width=None, use_column_width='auto', clamp=False, channels="RGB", output_format="auto")
                 
             except:
                 st.write("This feature has not yet been implemented.")
-
-        if clear:
-            st.write('Upload was cleared.')
-
-        st.caption("Image by starline on [Freepik](https://www.freepik.com/free-vector/coming-soon-construction-yellow-background-design_8562867.htm#query=website%20under%20construction&position=15&from_view=keyword)")
 
 
     if selected == 'NER Checker':
