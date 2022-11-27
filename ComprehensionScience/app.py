@@ -1,12 +1,14 @@
 import streamlit as st
 from streamlit_option_menu import option_menu # nav
 from PIL import Image
+import cv2
 import pandas as pd
 import io
 import os
 import numpy as np
 import requests
 from requests_toolbelt.multipart.encoder import MultipartEncoder
+import pytesseract 
 import zmq
 
 from htbuilder import HtmlElement, div, ul, li, br, hr, a, p, img, styles, classes, fonts
@@ -33,21 +35,9 @@ def sumy_summarizer(docx):
     result = ''.join(summary_list)
     return result
 
-
-# NLP libraries for NER component
-import spacy
-from spacy.cli.download import download
-##download(model="en_core_web_sm") # may need this if encounter an error
-nlp = spacy.load('en_core_web_sm')
-from spacy import displacy
-
-# makes outputted entities more readable
-HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid #e6e9ef; border-radius: 0.25rem; padding: 1rem">{}</div>"""
-
-# NLP to generate entities DOES NOT WORK********
-@st.cache(allow_output_mutation=True)
-def analyze_text(text):
-    return nlp(text)
+#remove unwanted characters from text
+def clean_text(text):
+    return str(text, 'utf-8')
 
 # Web scrapping packages
 import requests
@@ -68,15 +58,15 @@ def get_text(raw_url):
 
 
 def main():
-    """Text Summarizer and Entity Checker, Sumy, NLTK, Spacy"""
+    """Text Summarization and Extraction"""
 
     page_title="Comprehension Science",
 
     with st.sidebar:
         selected = option_menu(
             menu_title = "Select Input Type",
-            options = ["Input Text", "Input URL", "Input IMG"],
-            icons = ["journal-text", "link-45deg", "file-image", "boxes"],
+            options = ["Input Text", "Input URL", "Input IMG", "Input from Camera"],
+            icons = ["journal-text", "link-45deg", "file-image", "camera"],
             menu_icon = "door-open",
             orientation = "vertical",
             styles = {
@@ -85,9 +75,9 @@ def main():
         )
         with st.expander("About"):
             st.write("""
-        The purpose of this app is for users to paste text, a URL, or upload an image file and receive a text summary, text preview, or text extraction. It is being developed using Streamlit and a number of Python libraries including NLTK and Spacy.
+        The purpose of this app is for users to paste text, a URL, or upload an image file and receive a text summary, text preview, or text extraction. It is being developed using Streamlit and a number of Python libraries including Pytesseract and NLTK.
 
-It is currently in Alpha stage of development.""") 
+It is currently in Beta stage of development.""") 
         with st.expander("Tutorial"):
             st.write("""To test out the features, it is recommended to do the following:
             1. visit the following page:
@@ -198,12 +188,13 @@ Note: The Clear button can be used to clear the text or input areas.
                 socket.send_string(full_path)
                         #  Get the reply
                 message = socket.recv()
+                message = clean_text(message)
                 st.write(f"{message}")
                 image = st.image(image_file, caption=None, width=None, use_column_width='auto', clamp=False, channels="RGB", output_format="auto")
 
             except:
                 st.write("There was an error.")
-        if summarize:
+        elif summarize:
             try:       
                 st.write("Summarizing...")     
                 path_in = image_file.name
@@ -216,30 +207,31 @@ Note: The Clear button can be used to clear the text or input areas.
                 st.image(image_file, caption=None, width=None, use_column_width='auto', clamp=False, channels="RGB", output_format="auto")
                 
             except:
-                st.write("This feature has not yet been implemented.")
+                st.write("There was an error.")
+        
+    if selected == "Input from Camera":
+        st.title("Camera 📸")
+        st.write("Take a picture! It'll last longer.")
+        img_file_buffer = st.camera_input("Text will be extracted and displayed. If no text is generated, try a clearer picture.")
+
+        if img_file_buffer is not None:
+            try:
+                st.write("Extracting...") 
+        # To read image file buffer as a PIL Image:
+                img = Image.open(img_file_buffer)
+        # To convert PIL Image to numpy array:
+                img_array = np.array(img)
+                img = cv2.cvtColor(img_array, cv2.COLOR_BGR2RGB)
+        # Get string using pytesseract
+                text = pytesseract.image_to_string(img)
+                if text == '':
+                    st.write("Try taking a clearer picture.")
+                else:
+                    st.write(f"{text}")
+            except:
+                st.write("There was an error. Try taking a clearer picture.")
 
 
-    if selected == 'NER Checker':
-        # NOT WORKING
-        st.title("Entity Recognition with Spacy")
-
-        with st.form("myformNER"):
-            raw_text = st.text_area("Enter Text Here: ", key="Enter Text Here: ", placeholder = "Type Here")
-            f3, f4, f5, f6, f7, f8 = st.columns([1, 1, 1, 1, 1, 1]) # columns for purpose of aligning buttons
-            with f3:
-                analyze = st.form_submit_button(label="Analyze")
-            with f4:
-                clear = st.form_submit_button(label="Clear ", on_click=clear_form)
-
-        if analyze:
-            st.info('Analyzing...')
-            docx = analyze_text(raw_text)
-            html = displacy.render(docx, style= 'ent')
-            html = html.replace("\n\n", "\n")
-            st.write(html, unsafe_allow_html=True)
-
-        if clear:
-            st.write('Text was cleared.')
 
 
 def image(src_as_string, **style):

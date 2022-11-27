@@ -25,6 +25,8 @@ en-core-web-sm = {file = "https://github.com/explosion/spacy-models/releases/dow
 requests-toolbelt = ">=0.9.1"
 pillow = ">=7.1.2"
 pyzmq = "*"
+opencv-python-headless = "*"
+pytesseract = "*"
 
 [dev-packages]
 
