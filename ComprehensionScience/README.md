@@ -2,8 +2,7 @@
 
 The purpose of this app is for users to paste text, a URL, or upload an image file and receive either a text summary or (in the case of an image file) text extraction. It is being developed using Streamlit and a number of Python libraries including NLTK. 
 
-It is currently in Alpha.
-The IMG page does not extract text.
+It is currently in Beta.
 The URL page works inconsistently. I recommended trying the following URLs for fun:
 
 [Natural Language Processing](https://www.ibm.com/cloud/learn/natural-language-processing)
