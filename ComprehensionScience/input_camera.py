@@ -24,12 +24,13 @@ import zmq
 # Error messages
 error_message4 = 'There was an issue. Try taking a clearer picture.'
 
-def input_camera():        
+def input_camera():  
+    """The user can take an image from their computer and extract text from it"""      
     st.title("Camera 📸")
     st.write("Take a picture! It'll last longer.")
 
     # Streamlit widget for collecting the image data
-    img_file_buffer = st.camera_input("Text will be extracted and displayed. If no text is generated, try a clearer picture.")
+    img_file_buffer = st.camera_input("Text will be extracted and displayed.")
 
     if img_file_buffer is not None:
         try:

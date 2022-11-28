@@ -31,6 +31,7 @@ from random import choice
 error_message2 = 'Sorry, this website has not approved the program to retrieve data.'
 
 def input_url():
+    """User will input a URL, and they can extract a section of text or generate a summary"""
     st.title("URL ⛓")
     st.write("Summarize text, preview text, or both! All you need is a URL.")
 

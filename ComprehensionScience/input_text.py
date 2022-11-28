@@ -21,7 +21,7 @@ import requests
 error_message1 = 'It seems there was an issue. Please come back later.'
 
 def input_text():
-    """input text page"""
+    """Input text page. The user can paste text, and a summary will be generated"""
     
     def clear_text_form(): 
         """Clears forms by changing the session state. Session_state is a feature of Streamlit."""  

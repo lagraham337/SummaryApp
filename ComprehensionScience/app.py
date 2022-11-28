@@ -72,7 +72,7 @@ def main():
             receive a text summary, text preview, or text extraction. It is being developed using Streamlit and 
             a number of Python libraries including Pytesseract and NLTK. It is currently in Beta stage of development.""") 
         with st.expander("User Guide"):
-            st.write("""To test out the features, it is recommended to do the following: 
+            st.write("""To test out some of the features, it is recommended to do the following: 
             1. visit the following page: https://www.ibm.com/cloud/learn/natural-language-processing 
             2a. From this website, copy a portion of the text, 2b. click Input Text in the navigation bar,  
             2c. and paste it into the text box. 
@@ -83,26 +83,21 @@ def main():
             3d. Click Preview to see some of the contents of the webpage,  
             or click Summarize to summarize the entire article.  
             Note: The Clear button can be used to clear the text or 
-            input areas.""")
+            input areas.""")   
 
-    
-
-    # INPUT TEXT
+    # input_text.py
     if selected == 'Input Text': 
         input_text()
 
-
-    # INPUT URL
+    # input_url.py
     if selected == 'Input URL':
         input_url()
         
-
-    # INPUT IMG
+    # input_img.py
     if selected == 'Input IMG':
         input_img()
 
-
-    # INPUT CAMERA    
+    # input_camera.py
     if selected == "Input from Camera":
         input_camera()
 
